@@ -1,93 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0a0f0d">
   <title>MR ANON | Personal Forwarding</title>
   <style>
-    :root{color-scheme:dark;--bg:#0a0f0d;--surface:#111916;--surface2:#17211c;--border:#25352d;--text:#e7f2eb;--muted:#8a9b91;--green:#00e676;--soft:rgba(0,230,118,.12);--yellow:#f2c94c;--red:#ff7777}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-    .shell{max-width:980px;margin:auto;padding:28px 20px 50px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border:1px solid var(--green);border-radius:12px;display:grid;place-items:center;color:var(--green);font-weight:800}.brand small,.muted{color:var(--muted)}.brand small{display:block;font-size:11px;letter-spacing:1px}.brand strong{letter-spacing:1px}.tag{border:1px solid var(--border);border-radius:99px;color:var(--muted);padding:7px 11px;font-size:12px}
-    h1{font-size:clamp(25px,4vw,34px);margin:0}.intro{color:var(--muted);margin:7px 0 25px}.notice{padding:13px 15px;border:1px solid #665522;background:rgba(242,201,76,.08);border-radius:12px;color:#e8d995;font-size:13px;margin:20px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:21px}.card h2{font-size:16px;margin:0 0 5px}.card p{margin:0 0 18px;color:var(--muted);font-size:13px}.field{margin:15px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:7px}.field input,.field select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:9px;background:#0c1310;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--green)}.row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:13px 0;border-top:1px solid var(--border)}.row:first-of-type{border-top:0}.row strong{display:block;font-size:13px}.row small{color:var(--muted);font-size:12px}.switch{position:relative;width:44px;height:25px;flex:0 0 auto}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;inset:0;border-radius:20px;background:#39443d;cursor:pointer;transition:.2s}.slider:before{content:"";position:absolute;left:3px;top:3px;width:19px;height:19px;border-radius:50%;background:white;transition:.2s}.switch input:checked+.slider{background:#008f4a}.switch input:checked+.slider:before{transform:translateX(19px)}.switch input:focus-visible+.slider{outline:2px solid var(--green);outline-offset:3px}.btn{border:0;border-radius:9px;padding:11px 15px;background:var(--green);color:#062111;font-weight:700;cursor:pointer}.btn:hover{filter:brightness(1.08)}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.pill{display:inline-flex;align-items:center;gap:7px;border-radius:99px;padding:5px 9px;background:var(--soft);color:var(--green);font-size:11px}.pill:before{content:"";width:6px;height:6px;background:currentColor;border-radius:50%}.pill.off{background:rgba(138,155,145,.12);color:var(--muted)}.pill.wait{background:rgba(242,201,76,.1);color:var(--yellow)}.help{margin-top:20px;padding:15px;border:1px solid var(--border);border-radius:12px;color:var(--muted);font-size:13px}.help b{color:var(--text)}#toast{position:fixed;bottom:20px;right:20px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 15px;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}#toast.show{opacity:1;transform:none}footer{text-align:center;color:#637168;font-size:11px;padding-top:24px}
-    @media(max-width:700px){.grid{grid-template-columns:1fr}.shell{padding:20px 14px 36px}.card{padding:17px}.tag{font-size:10px}}
+    :root{color-scheme:dark;--bg:#0a0f0d;--surface:#111916;--surface2:#17211c;--border:#25352d;--text:#e7f2eb;--muted:#91a197;--green:#00e676;--soft:rgba(0,230,118,.12);--yellow:#f2c94c;--red:#ff7777}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}.shell{max-width:970px;margin:auto;padding:25px 18px 45px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:35px}.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border:1px solid var(--green);border-radius:12px;display:grid;place-items:center;color:var(--green);font-weight:800}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.2px}.brand strong{letter-spacing:1px}.tag,.pill{border:1px solid var(--border);border-radius:99px;padding:6px 10px;color:var(--muted);font-size:11px}.eyebrow{color:var(--green);font-size:11px;letter-spacing:1.4px;text-transform:uppercase}h1{font-size:clamp(25px,4vw,34px);line-height:1.2;margin:5px 0}.intro{color:var(--muted);margin:7px 0 23px}.notice{padding:13px 15px;border:1px solid #665522;background:rgba(242,201,76,.08);border-radius:12px;color:#eadb9d;font-size:13px;margin:18px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.card{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:20px}.card h2{font-size:16px;margin:0 0 4px}.card>p{margin:0 0 17px;color:var(--muted);font-size:13px}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field input,.field select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:9px;background:#0c1310;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--green)}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid var(--border)}.row strong{display:block;font-size:13px}.row small{color:var(--muted);font-size:12px}.switch{position:relative;width:44px;height:25px;flex:0 0 auto}.switch input{opacity:0;width:1px;height:1px}.slider{position:absolute;inset:0;border-radius:20px;background:#39443d;cursor:pointer}.slider:before{content:"";position:absolute;left:3px;top:3px;width:19px;height:19px;border-radius:50%;background:white;transition:.2s}.switch input:checked+.slider{background:#008f4a}.switch input:checked+.slider:before{transform:translateX(19px)}.switch input:focus-visible+.slider{outline:2px solid var(--green);outline-offset:3px}.btn{border:0;border-radius:9px;padding:10px 15px;background:var(--green);color:#062111;font-weight:700;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}.btn:disabled{opacity:.55;cursor:not-allowed}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.pill{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border:0;color:var(--green)}.pill:before{content:"";width:6px;height:6px;background:currentColor;border-radius:50%}.pill.off{background:rgba(145,161,151,.12);color:var(--muted)}.pill.warn{background:rgba(242,201,76,.1);color:var(--yellow)}.help{margin-top:16px;padding:13px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:12px}.help b{color:var(--text)}.hidden{display:none!important}.login-card{max-width:440px;margin:8vh auto}.error{min-height:20px;color:var(--red);font-size:12px;margin-top:8px}.audit{margin-top:15px}.audit-item{padding:11px 0;border-top:1px solid var(--border);font-size:12px}.audit-item small{display:block;color:var(--muted);margin-top:3px}.empty{color:var(--muted);font-size:12px;padding:10px 0}footer{text-align:center;color:#637168;font-size:11px;padding-top:23px}#toast{position:fixed;right:18px;bottom:18px;max-width:340px;padding:12px 15px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;font-size:12px}#toast.show{opacity:1;transform:none}
+    @media(max-width:700px){.grid{grid-template-columns:1fr}.shell{padding:18px 13px 32px}.card{padding:16px}.top{margin-bottom:25px}}
   </style>
 </head>
 <body>
   <main class="shell">
     <header class="top">
       <div class="brand"><div class="mark" aria-hidden="true">A</div><div><strong>MR ANON</strong><small>PERSONAL ADMIN</small></div></div>
-      <span class="tag">Demo · UI only</span>
+      <span class="tag">Private dashboard</span>
     </header>
-    <h1>Call &amp; SMS forwarding</h1>
-    <p class="intro">Manage forwarding preferences for your own number.</p>
-    <div class="notice"><strong>Important:</strong> This page is only a front-end demo. Saving here does not change your carrier or phone settings. Use your carrier’s official app/settings, or connect an authorized provider API on a secure backend.</div>
 
-    <div class="grid">
-      <section class="card" aria-labelledby="call-title">
-        <h2 id="call-title">Call forwarding</h2>
-        <p>Set a destination and choose when calls should be forwarded.</p>
-        <div class="field"><label for="destination">Your forwarding destination</label><input id="destination" type="tel" inputmode="tel" autocomplete="tel" placeholder="+1 555 010 1234" aria-describedby="phone-help"><small id="phone-help" class="muted">Enter a number you own, including country code.</small></div>
-        <div class="field"><label for="condition">Forward calls</label><select id="condition"><option value="always">Always</option><option value="busy">When busy</option><option value="unanswered">When unanswered</option><option value="unreachable">When unreachable</option></select></div>
-        <div class="row"><div><strong>Enable call forwarding</strong><small id="call-state">Currently off</small></div><label class="switch" aria-label="Enable call forwarding"><input id="call-toggle" type="checkbox"><span class="slider"></span></label></div>
-        <div class="actions"><button class="btn" id="save-call" type="button">Save demo settings</button><button class="btn secondary" id="reset-call" type="button">Reset</button></div>
-      </section>
-
-      <section class="card" aria-labelledby="sms-title">
-        <h2 id="sms-title">SMS forwarding</h2>
-        <p>SMS forwarding depends on your carrier and device; this demo cannot read or forward messages.</p>
-        <div class="row"><div><strong>Provider integration</strong><small>Not connected</small></div><span class="pill wait">Setup required</span></div>
-        <div class="field"><label for="sms-destination">Verified destination number</label><input id="sms-destination" type="tel" inputmode="tel" placeholder="Available after provider setup" disabled></div>
-        <div class="row"><div><strong>SMS forwarding</strong><small>Unavailable until an official provider is connected</small></div><label class="switch" aria-label="SMS forwarding unavailable"><input type="checkbox" disabled><span class="slider"></span></label></div>
-        <div class="help"><b>For personal SMS:</b> check your carrier’s official features. Do not send verification codes or private messages to a number you do not control.</div>
-      </section>
-    </div>
-
-    <section class="card" style="margin-top:16px" aria-labelledby="status-title">
-      <div class="row" style="border:0;padding:0"><div><h2 id="status-title" style="margin:0 0 4px">Forwarding status</h2><small class="muted">Local demo state only — not carrier status</small></div><span id="status-pill" class="pill off">Call forwarding off</span></div>
-      <div class="help">To activate real call forwarding, use your carrier’s settings or its documented API. Never put carrier passwords, provider secrets, or API keys in this HTML file; a secure backend is required for any API integration.</div>
+    <section id="login-view" class="card login-card">
+      <div class="eyebrow">Admin sign-in</div><h1>Welcome back</h1><p class="intro">Sign in to manage your personal forwarding preferences.</p>
+      <form id="login-form">
+        <div class="field"><label for="username">Username</label><input id="username" name="username" autocomplete="username" required maxlength="80"></div>
+        <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="200"></div>
+        <button class="btn" type="submit">Sign in</button><div class="error" id="login-error" role="alert"></div>
+      </form>
+      <div class="help">Use the administrator credentials configured on your server. This page does not store passwords in the browser.</div>
     </section>
-    <footer>MR ANON · Personal forwarding demo</footer>
+
+    <section id="dashboard-view" class="hidden">
+      <div class="eyebrow">Personal controls</div><h1>Call &amp; SMS forwarding</h1><p class="intro">Manage preferences for a number you own.</p>
+      <div class="notice"><b>Demo/provider status:</b> Saving preferences here does not change your carrier settings or forward calls/messages. Real call control requires an authorized carrier/provider API. SMS forwarding is intentionally not implemented; use your carrier’s official feature.</div>
+      <div class="grid">
+        <section class="card" aria-labelledby="call-title">
+          <h2 id="call-title">Call forwarding preference</h2><p>Save your requested setting. You must still configure actual forwarding through your carrier.</p>
+          <div class="field"><label for="destination">Destination number you own</label><input id="destination" type="tel" inputmode="tel" autocomplete="tel" placeholder="+15550101234"><small style="color:var(--muted);font-size:11px">International format, e.g. +15550101234</small></div>
+          <div class="field"><label for="condition">Forwarding condition</label><select id="condition"><option value="always">Always</option><option value="busy">When busy</option><option value="unanswered">When unanswered</option><option value="unreachable">When unreachable</option></select></div>
+          <div class="row"><div><strong>Requested state</strong><small id="call-state">Not enabled</small></div><label class="switch" aria-label="Requested call forwarding state"><input id="call-toggle" type="checkbox"><span class="slider"></span></label></div>
+          <div class="actions"><button class="btn" id="save-call" type="button">Save preference</button><button class="btn secondary" id="reset-call" type="button">Turn off</button></div>
+          <div class="help"><b>Important:</b> This toggle only saves your preference in this app; it does not activate forwarding on your SIM.</div>
+        </section>
+        <section class="card" aria-labelledby="sms-title">
+          <h2 id="sms-title">SMS forwarding</h2><p>No message contents, verification codes, or SMS forwarding are handled by this app.</p>
+          <div class="row"><div><strong>Integration</strong><small>Not configured</small></div><span class="pill warn">Unavailable</span></div>
+          <div class="help"><b>For personal SMS:</b> check your carrier’s official features. Keep verification codes private and never forward messages to a number you do not control.</div>
+        </section>
+      </div>
+      <section class="card" style="margin-top:15px">
+        <div class="row" style="border:0;padding:0"><div><h2 style="margin:0 0 3px">Saved status</h2><small id="saved-note">Local server preference only</small></div><span id="status-pill" class="pill off">Not enabled</span></div>
+      </section>
+      <section class="card audit" aria-labelledby="audit-title"><h2 id="audit-title">Recent account activity</h2><div id="audit-list" class="empty">Loading activity…</div></section>
+      <div class="actions"><button class="btn secondary" id="logout" type="button">Sign out</button></div>
+    </section>
+    <footer>MR ANON · Personal forwarding preference manager</footer>
   </main>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script>
-    const destination = document.getElementById('destination');
-    const condition = document.getElementById('condition');
-    const toggle = document.getElementById('call-toggle');
-    const state = document.getElementById('call-state');
-    const pill = document.getElementById('status-pill');
-    const toast = document.getElementById('toast');
-    let toastTimer;
-    function notify(message) {
-      toast.textContent = message;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
-    }
-    function render() {
-      const enabled = toggle.checked;
-      state.textContent = enabled ? `Enabled in this demo · ${condition.options[condition.selectedIndex].text}` : 'Currently off';
-      pill.textContent = enabled ? 'Demo enabled' : 'Call forwarding off';
-      pill.classList.toggle('off', !enabled);
-    }
-    toggle.addEventListener('change', render);
-    condition.addEventListener('change', render);
-    document.getElementById('save-call').addEventListener('click', () => {
-      if (toggle.checked && !/^\+[1-9]\d{7,14}$/.test(destination.value.replace(/[\s()-]/g, ''))) {
-        destination.focus();
-        notify('Enter a valid international number, e.g. +15550101234.');
-        return;
-      }
-      render();
-      notify('Demo settings saved in this page only; carrier settings were not changed.');
-    });
-    document.getElementById('reset-call').addEventListener('click', () => {
-      destination.value = '';
-      condition.value = 'always';
-      toggle.checked = false;
-      render();
-      notify('Demo settings reset.');
-    });
-  </script>
+  <script src="/app.js" defer></script>
 </body>
 </html>
