@@ -1,32 +1,299 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>MR ANON Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0f0d">
+  <title>MR ANON | Admin Panel</title>
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a0f0d;
+      --surface: #111916;
+      --surface-2: #17211c;
+      --border: #25352d;
+      --text: #e7f2eb;
+      --muted: #8a9b91;
+      --green: #00e676;
+      --green-soft: rgba(0, 230, 118, .12);
+      --yellow: #f2c94c;
+      --red: #ff6b6b;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
     body {
-      background: #0a0a0a;
-      color: #00ff88;
-      font-family: monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    .box {
-      border: 1px solid #00ff88;
-      padding: 40px;
-      text-align: center;
+    button, input { font: inherit; }
+    button { color: inherit; }
+    .layout { min-height: 100vh; display: grid; grid-template-columns: 248px minmax(0, 1fr); }
+    .sidebar {
+      background: #0d1410;
+      border-right: 1px solid var(--border);
+      padding: 25px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
-    h1 { letter-spacing: 4px; }
-    .ver { font-size: 12px; color: #666; margin-top: 20px; }
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px; }
+    .brand-mark {
+      width: 38px; height: 38px; border: 1px solid var(--green); border-radius: 11px;
+      display: grid; place-items: center; color: var(--green); font-weight: 800;
+      box-shadow: 0 0 20px rgba(0,230,118,.12);
+    }
+    .brand strong { display: block; letter-spacing: 1.8px; font-size: 13px; }
+    .brand small { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .nav-label { color: #64736a; font-size: 10px; letter-spacing: 1.4px; padding: 0 12px; margin: 0 0 10px; }
+    .nav { display: grid; gap: 5px; }
+    .nav button {
+      display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 12px;
+      border: 0; border-radius: 9px; background: transparent; color: var(--muted);
+      text-align: left; cursor: pointer; transition: .18s ease;
+    }
+    .nav button:hover, .nav button.active { background: var(--green-soft); color: var(--green); }
+    .nav-icon { width: 19px; text-align: center; font-size: 15px; }
+    .sidebar-bottom { margin-top: auto; }
+    .profile {
+      display: flex; align-items: center; gap: 10px; padding: 13px 10px 0;
+      border-top: 1px solid var(--border);
+    }
+    .avatar { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: #20372a; color: var(--green); font-size: 12px; font-weight: 700; }
+    .profile strong { display: block; font-size: 12px; }
+    .profile small { color: var(--muted); font-size: 11px; }
+    main { min-width: 0; padding: 30px clamp(18px, 4vw, 48px) 40px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 32px; }
+    .eyebrow { color: var(--green); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 7px; }
+    h1 { font-size: clamp(24px, 3vw, 32px); margin: 0; letter-spacing: -.7px; }
+    .top-actions { display: flex; align-items: center; gap: 12px; }
+    .status { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .status::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-right: 8px; box-shadow: 0 0 8px var(--green); }
+    .icon-button { width: 38px; height: 38px; border: 1px solid var(--border); background: var(--surface); border-radius: 10px; cursor: pointer; }
+    .icon-button:hover { border-color: var(--green); }
+    .welcome { color: var(--muted); margin: 8px 0 0; font-size: 14px; }
+    .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: 30px 0 14px; }
+    .section-heading h2 { margin: 0; font-size: 16px; }
+    .section-heading span { color: var(--muted); font-size: 12px; }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+    .stat-card { padding: 19px; }
+    .stat-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; }
+    .stat-symbol { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; color: var(--green); background: var(--green-soft); }
+    .stat-number { font-size: 27px; font-weight: 700; margin: 15px 0 7px; letter-spacing: -.7px; }
+    .trend { font-size: 11px; color: var(--green); }
+    .trend.neutral { color: var(--muted); }
+    .content-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(260px, 1fr); gap: 16px; }
+    .panel { padding: 20px; min-width: 0; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .panel-head h2 { font-size: 15px; margin: 0; }
+    .panel-head a, .text-button { color: var(--green); font-size: 12px; text-decoration: none; background: none; border: 0; cursor: pointer; }
+    .activity-list { display: grid; }
+    .activity { display: flex; align-items: flex-start; gap: 12px; padding: 13px 0; border-top: 1px solid #202c25; }
+    .activity:first-child { border-top: 0; padding-top: 0; }
+    .activity-dot { width: 8px; height: 8px; margin-top: 5px; flex: 0 0 auto; border-radius: 50%; background: var(--green); }
+    .activity-dot.warn { background: var(--yellow); }
+    .activity-copy { min-width: 0; flex: 1; font-size: 12px; line-height: 1.5; }
+    .activity-copy strong { color: var(--text); font-weight: 600; }
+    .activity-copy small { display: block; color: var(--muted); margin-top: 3px; }
+    .health-row { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; margin: 16px 0 8px; }
+    .health-row strong { color: var(--text); font-weight: 500; }
+    .progress { height: 6px; background: #26332c; border-radius: 99px; overflow: hidden; }
+    .progress span { display: block; height: 100%; width: 68%; border-radius: inherit; background: var(--green); }
+    .progress.memory span { width: 42%; background: #74d8a1; }
+    .system-state { display: flex; align-items: center; gap: 9px; padding: 12px; margin-top: 19px; border: 1px solid #244330; border-radius: 10px; background: rgba(0,230,118,.06); font-size: 12px; }
+    .system-state b { color: var(--green); }
+    .table-panel { margin-top: 16px; overflow: hidden; }
+    .table-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px; }
+    .table-toolbar h2 { margin: 0; font-size: 15px; }
+    .search { width: min(230px, 50%); padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; outline: none; background: #0c1310; color: var(--text); font-size: 12px; }
+    .search:focus { border-color: var(--green); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; }
+    th, td { padding: 13px 20px; border-top: 1px solid #202c25; }
+    th { color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .9px; text-transform: uppercase; }
+    td { font-size: 12px; }
+    .user-cell { display: flex; align-items: center; gap: 10px; }
+    .user-cell .avatar { width: 29px; height: 29px; font-size: 10px; }
+    .user-name { font-weight: 600; }
+    .user-email { display: block; color: var(--muted); font-size: 11px; margin-top: 2px; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 99px; padding: 5px 9px; background: rgba(0,230,118,.1); color: var(--green); font-size: 10px; }
+    .badge::before { content: ""; width: 5px; height: 5px; background: currentColor; border-radius: 50%; }
+    .badge.pending { background: rgba(242,201,76,.1); color: var(--yellow); }
+    .row-action { border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+    .empty-state { display: none; padding: 22px; color: var(--muted); text-align: center; font-size: 13px; }
+    footer { padding-top: 20px; text-align: center; color: #607066; font-size: 11px; }
+    #notice { position: fixed; right: 22px; bottom: 22px; max-width: 320px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; font-size: 12px; box-shadow: 0 10px 35px #0008; opacity: 0; transform: translateY(8px); pointer-events: none; transition: .2s ease; }
+    #notice.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1050px) {
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .content-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { padding: 14px; border-right: 0; border-bottom: 1px solid var(--border); gap: 16px; }
+      .nav-section-label, .sidebar-bottom { display: none; }
+      .nav { display: flex; overflow-x: auto; padding-bottom: 2px; }
+      .nav button { width: auto; flex: 0 0 auto; padding: 9px 11px; font-size: 12px; }
+      main { padding: 22px 15px 30px; }
+      .topbar { align-items: flex-start; margin-bottom: 23px; }
+      .status { display: none; }
+      .stats { gap: 10px; }
+      .stat-card { padding: 14px; }
+      .stat-number { font-size: 23px; }
+      .table-toolbar { align-items: flex-start; flex-direction: column; }
+      .search { width: 100%; }
+      th, td { padding-left: 14px; padding-right: 14px; }
+    }
+    @media (max-width: 390px) {
+      .stats { grid-template-columns: 1fr; }
+      .top-actions { gap: 6px; }
+    }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>MR ANON Dashboard</h1>
-    <p>SECURE ACCESS PORTAL</p>
-    <div class="ver">v2.0.1 · ENCRYPTED SESSION</div>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">A</div>
+        <div><strong>MR ANON</strong><small>ADMIN CONSOLE</small></div>
+      </div>
+      <div>
+        <p class="nav-label nav-section-label">WORKSPACE</p>
+        <nav class="nav">
+          <button class="active" type="button" data-section="Dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+          <button type="button" data-section="Users"><span class="nav-icon">♙</span>Users</button>
+          <button type="button" data-section="Activity"><span class="nav-icon">◷</span>Activity log</button>
+          <button type="button" data-section="Settings"><span class="nav-icon">⚙</span>Settings</button>
+        </nav>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="profile">
+          <div class="avatar">AD</div>
+          <div><strong>Administrator</strong><small>Owner account</small></div>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Overview</div>
+          <h1>Dashboard</h1>
+          <p class="welcome">Welcome back. Here’s what’s happening today.</p>
+        </div>
+        <div class="top-actions">
+          <span class="status">All systems operational</span>
+          <button class="icon-button" type="button" id="notifications" aria-label="Notifications" title="Notifications">♧</button>
+        </div>
+      </header>
+
+      <section aria-label="Key metrics" class="stats">
+        <article class="card stat-card">
+          <div class="stat-top"><span>Total users</span><span class="stat-symbol">♙</span></div>
+          <div class="stat-number">2,845</div><div class="trend">↗ 8.2% <span class="trend neutral">this month</span></div>
+        </article>
+        <article class="card stat-card">
+          <div class="stat-top"><span>Active sessions</span><span class="stat-symbol">◉</span></div>
+          <div class="stat-number">184</div><div class="trend">↗ 4.6% <span class="trend neutral">this week</span></div>
+        </article>
+        <article class="card stat-card">
+          <div class="stat-top"><span>Pending invites</span><span class="stat-symbol">✉</span></div>
+          <div class="stat-number">12</div><div class="trend neutral">Awaiting response</div>
+        </article>
+        <article class="card stat-card">
+          <div class="stat-top"><span>Open alerts</span><span class="stat-symbol">⚑</span></div>
+          <div class="stat-number">3</div><div class="trend neutral">No critical alerts</div>
+        </article>
+      </section>
+
+      <div class="section-heading"><h2>System overview</h2><span>Updated just now</span></div>
+      <section class="content-grid" aria-label="System overview and recent activity">
+        <article class="card panel">
+          <div class="panel-head"><h2>Recent activity</h2><a href="#activity" class="activity-link">View activity</a></div>
+          <div class="activity-list" id="activity">
+            <div class="activity"><span class="activity-dot"></span><div class="activity-copy"><strong>New user registered</strong> — alex.morgan joined the workspace.<small>4 minutes ago · Users</small></div></div>
+            <div class="activity"><span class="activity-dot"></span><div class="activity-copy"><strong>Role updated</strong> — Jamie Lee was assigned Editor access.<small>38 minutes ago · Permissions</small></div></div>
+            <div class="activity"><span class="activity-dot warn"></span><div class="activity-copy"><strong>Invitation pending</strong> — an invite to samira.khan@example.com is awaiting acceptance.<small>2 hours ago · Invitations</small></div></div>
+            <div class="activity"><span class="activity-dot"></span><div class="activity-copy"><strong>Settings saved</strong> — workspace preferences were updated.<small>Yesterday · Settings</small></div></div>
+          </div>
+        </article>
+        <article class="card panel">
+          <div class="panel-head"><h2>System health</h2><span class="badge">Healthy</span></div>
+          <div class="health-row"><span>CPU usage</span><strong>28%</strong></div>
+          <div class="progress"><span></span></div>
+          <div class="health-row"><span>Memory usage</span><strong>42%</strong></div>
+          <div class="progress memory"><span></span></div>
+          <div class="health-row"><span>Storage</span><strong>68% used</strong></div>
+          <div class="progress"><span></span></div>
+          <div class="system-state"><span class="activity-dot"></span><span><b>All services operational</b><br>Last checked moments ago</span></div>
+        </article>
+      </section>
+
+      <section class="card table-panel" aria-labelledby="users-heading">
+        <div class="table-toolbar">
+          <h2 id="users-heading">Recent users</h2>
+          <input class="search" id="user-search" type="search" placeholder="Search users..." aria-label="Search users">
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>User</th><th>Role</th><th>Status</th><th>Joined</th><th aria-label="Actions"></th></tr></thead>
+            <tbody id="user-rows">
+              <tr><td><div class="user-cell"><span class="avatar">AM</span><span><span class="user-name">Alex Morgan</span><span class="user-email">alex.morgan@example.com</span></span></div></td><td>Administrator</td><td><span class="badge">Active</span></td><td>Today</td><td><button class="row-action" aria-label="More actions for Alex Morgan">•••</button></td></tr>
+              <tr><td><div class="user-cell"><span class="avatar">JL</span><span><span class="user-name">Jamie Lee</span><span class="user-email">jamie.lee@example.com</span></span></div></td><td>Editor</td><td><span class="badge">Active</span></td><td>Yesterday</td><td><button class="row-action" aria-label="More actions for Jamie Lee">•••</button></td></tr>
+              <tr><td><div class="user-cell"><span class="avatar">SK</span><span><span class="user-name">Samira Khan</span><span class="user-email">samira.khan@example.com</span></span></div></td><td>Viewer</td><td><span class="badge pending">Invited</span></td><td>Oct 24, 2026</td><td><button class="row-action" aria-label="More actions for Samira Khan">•••</button></td></tr>
+            </tbody>
+          </table>
+          <div class="empty-state" id="empty-state">No users match your search.</div>
+        </div>
+      </section>
+      <footer>MR ANON Admin Console · Demo dashboard</footer>
+    </main>
   </div>
+  <div id="notice" role="status" aria-live="polite"></div>
+
+  <script>
+    const notice = document.getElementById('notice');
+    let noticeTimer;
+    function showNotice(message) {
+      notice.textContent = message;
+      notice.classList.add('show');
+      clearTimeout(noticeTimer);
+      noticeTimer = setTimeout(() => notice.classList.remove('show'), 2600);
+    }
+
+    document.getElementById('user-search').addEventListener('input', (event) => {
+      const query = event.target.value.trim().toLowerCase();
+      const rows = [...document.querySelectorAll('#user-rows tr')];
+      let visibleCount = 0;
+      rows.forEach((row) => {
+        const matches = row.textContent.toLowerCase().includes(query);
+        row.hidden = !matches;
+        if (matches) visibleCount++;
+      });
+      document.getElementById('empty-state').style.display = visibleCount ? 'none' : 'block';
+    });
+
+    document.querySelectorAll('.nav button').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelector('.nav button.active')?.classList.remove('active');
+        button.classList.add('active');
+        const section = button.dataset.section;
+        if (section !== 'Dashboard') showNotice(`${section} section selected. Connect this menu to your application routes.`);
+      });
+    });
+    document.getElementById('notifications').addEventListener('click', () => showNotice('You’re all caught up.'));
+    document.querySelectorAll('.row-action').forEach((button) => {
+      button.addEventListener('click', () => showNotice('User actions need to be connected to a backend.'));
+    });
+    document.querySelector('.activity-link').addEventListener('click', (event) => {
+      event.preventDefault();
+      showNotice('Showing the latest activity.');
+    });
+  </script>
 </body>
 </html>
